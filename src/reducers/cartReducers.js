@@ -1,6 +1,7 @@
 import * as actions from '../Types';
 
 /* get products and total price from local storage */ 
+
 let currentCart = JSON.parse(window.localStorage.getItem('data')) || [];
 let currentTotal = JSON.parse(window.localStorage.getItem('total')) || 0
 
@@ -12,7 +13,7 @@ const initialState = {
 
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.ADD_TO_CART:
+    case actions.ADD_TO_CART: {
       const currentProduct = action.payload
       let amountIndex = parseInt(window.localStorage.getItem('SelectedCurrency'))
       
@@ -72,14 +73,16 @@ export const cartReducer = (state = initialState, action) => {
         ...state,
         cart: [...currentCart]
       }
+    }
       
-      case actions.ADD_COUNT: 
+    case actions.ADD_COUNT: {
       let attributes = action.payload
       let priceIndex = JSON.parse(window.localStorage.getItem('SelectedCurrency'))
       let localTotal = JSON.parse(window.localStorage.getItem('total'))
 
       /* Use the current product's attributes to check against the local 
-        storage or cart if there's a match, meaning product exist */ 
+      storage or cart if there's a match, meaning product exist */
+      
       currentCart.forEach((localProduct) => {  
         if(isSame(attributes, localProduct.attributes)){
           /* if current product has a match, increase count key by 1 */ 
@@ -108,8 +111,9 @@ export const cartReducer = (state = initialState, action) => {
         ...state,
         cart: [...state.cart]
       }
+    }
 
-    case actions.SUB_COUNT:
+    case actions.SUB_COUNT: {
       let currentAttributes = action.payload
       let price_Index = parseInt(window.localStorage.getItem('SelectedCurrency'))
       let localTotal_sub = JSON.parse(window.localStorage.getItem('total'))
@@ -155,6 +159,7 @@ export const cartReducer = (state = initialState, action) => {
         ...state,
         cart: [...currentCart]
       }
+    }
 
     default:
       return state;

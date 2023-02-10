@@ -21,7 +21,7 @@ class Cart extends Component {
     let price_index = JSON.parse(window.localStorage.getItem('SelectedCurrency')) || 0
     let local_data = JSON.parse(window.localStorage.getItem('data'))
     let tax = 0.21 * cartTotal
-
+    console.log(typeof local_data)
     return (
       <Container>
         <Wrapper>
@@ -62,6 +62,14 @@ class Cart extends Component {
       </Container>
     )
   }
+}
+
+Cart.propTypes = {
+  cartItems: PropTypes.shape({
+    cart: PropTypes.array,
+    quantity: PropTypes.number,
+  },),
+  addCount: PropTypes.func
 }
 
 // connect this component to the state for access to data

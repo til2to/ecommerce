@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/til2to/ecommerce.git/static/css/main.eadf6aa1.css",
-    "main.js": "/til2to/ecommerce.git/static/js/main.5476b1bc.js",
-    "static/js/787.58163e85.chunk.js": "/til2to/ecommerce.git/static/js/787.58163e85.chunk.js",
-    "index.html": "/til2to/ecommerce.git/index.html",
-    "static/media/arrow.svg": "/til2to/ecommerce.git/static/media/arrow.766d7b11f183f77a1e40c47ea18dd7ee.svg",
-    "main.eadf6aa1.css.map": "/til2to/ecommerce.git/static/css/main.eadf6aa1.css.map",
-    "main.5476b1bc.js.map": "/til2to/ecommerce.git/static/js/main.5476b1bc.js.map",
-    "787.58163e85.chunk.js.map": "/til2to/ecommerce.git/static/js/787.58163e85.chunk.js.map"
+    "main.css": "/static/css/main.eadf6aa1.css",
+    "main.js": "/static/js/main.a1bb042d.js",
+    "static/js/787.58163e85.chunk.js": "/static/js/787.58163e85.chunk.js",
+    "index.html": "/index.html",
+    "static/media/arrow.svg": "/static/media/arrow.766d7b11f183f77a1e40c47ea18dd7ee.svg",
+    "main.eadf6aa1.css.map": "/static/css/main.eadf6aa1.css.map",
+    "main.a1bb042d.js.map": "/static/js/main.a1bb042d.js.map",
+    "787.58163e85.chunk.js.map": "/static/js/787.58163e85.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.eadf6aa1.css",
-    "static/js/main.5476b1bc.js"
+    "static/js/main.a1bb042d.js"
   ]
 }

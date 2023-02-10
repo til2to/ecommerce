@@ -62,7 +62,7 @@ class CartItem extends Component {
     // current product from Cart component/page
     let { name, brand, gallery, attributes, prices } = this.props.item
     let updateLocalcount = JSON.parse(window.localStorage.getItem('data'))
-
+    
     /* check the attributes of the current product against the existing products 
     in the localStorage or cart to update the count of the current product */ 
     let currentCount;
@@ -92,18 +92,18 @@ class CartItem extends Component {
             // A loop through the attributes of the current product to render
             attributes.map((item, index) => {
               return <>
-                <AttributeName key={index}>
+                <AttributeName key={`name${index}`}>
                   {item.name}: 
                 </AttributeName>
               
-                <AttributesItems key={index}>
+                <AttributesItems key={`item${index}`}>
                   {
                     item.name === 'Color' ?
-                    <ColorContainer key={index} 
+                    <ColorContainer key={`color${index}`} 
                     style={{ backgroundColor: item.value, border: "1px solid #1d1f22" }}
                     />
                     :
-                    <AttributesCont key={index}>{item.value}</AttributesCont>
+                    <AttributesCont key={`container${index}`}>{item.value}</AttributesCont>
                   }
                 </AttributesItems>
               </>
@@ -155,6 +155,19 @@ class CartItem extends Component {
       </Container>
     )
   }
+}
+
+CartItem.propTypes = {
+  noArrows: PropTypes.bool,
+  item: PropTypes.shape({
+    name: PropTypes.string,
+    brand: PropTypes.string,
+    gallery: PropTypes.array,
+    attributes: PropTypes.array,
+    prices: PropTypes.array
+  }),
+  addCount: PropTypes.func,
+  subCount: PropTypes.func
 }
 
 // connect this component to the state for access to data and also dispatch actions
