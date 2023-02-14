@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 
 import {
   Container,
+  Wrapper,
   MidContainer,
   LeftContainer,
   RightContainer,
@@ -90,24 +91,22 @@ class CartItem extends Component {
           </CartInfo>
           {
             // A loop through the attributes of the current product to render
-            attributes.map((item, index) => {
-              return <>
-                <AttributeName key={`name${index}`}>
-                  {item.name}: 
-                </AttributeName>
-              
-                <AttributesItems key={`item${index}`}>
-                  {
-                    item.name === 'Color' ?
-                    <ColorContainer key={`color${index}`} 
-                    style={{ backgroundColor: item.value, border: "1px solid #1d1f22" }}
-                    />
-                    :
-                    <AttributesCont key={`container${index}`}>{item.value}</AttributesCont>
-                  }
-                </AttributesItems>
-              </>
-            })
+            attributes.map((item, index) => <Wrapper key={`parent${index}`}>
+              <AttributeName key={`name${index}`}>
+                {item.name}: 
+              </AttributeName>
+            
+              <AttributesItems key={`item${index}`}>
+                {
+                  item.name === 'Color' ?
+                  <ColorContainer key={`color${index}`} 
+                  style={{ backgroundColor: item.value, border: "1px solid #1d1f22" }}
+                  />
+                  :
+                  <AttributesCont key={`container${index}`}>{item.value}</AttributesCont>
+                }
+              </AttributesItems>
+            </Wrapper>)
           }
         </LeftContainer>
         

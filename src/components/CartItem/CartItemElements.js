@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
-
 export const Container = styled.div`
   display: flex;
   border-top: 0.5px solid #e5e5e5;
+`
+export const Wrapper = styled.div`
 `
 export const LeftContainer = styled.div`
   flex: 1;

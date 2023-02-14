@@ -1,9 +1,9 @@
 import * as actions from '../Types';
 
 /* get products and total price from local storage */ 
-
 let currentCart = JSON.parse(window.localStorage.getItem('data')) || [];
-let currentTotal = JSON.parse(window.localStorage.getItem('total')) || 0
+let currentTotal = JSON.parse(window.localStorage.getItem('total')) || 0;
+console.log(currentCart)
 
 const initialState = {
   cart: currentCart, // set the cart to the local storage data array
@@ -19,7 +19,7 @@ export const cartReducer = (state = initialState, action) => {
       
       let exist = false 
       // check if item exist
-      currentCart.forEach((localProduct) => {  
+      currentCart.forEach((localProduct) => { 
         if(checkLocalStorage(currentProduct.attributes, localProduct.attributes))
         {
           exist = true;
@@ -57,7 +57,8 @@ export const cartReducer = (state = initialState, action) => {
         /* if product does not exist add product to cart or local 
         storage but always the current product at index 0 */ 
         currentCart.unshift(currentProduct)
-        window.localStorage.setItem('data', JSON.stringify(currentCart))
+        window.localStorage.setItem('data', JSON.stringify([...currentCart]))
+
         let local_total = JSON.parse(window.localStorage.getItem('total'))
         /*set the amount */ 
         local_total += currentProduct.prices[amountIndex].amount 
