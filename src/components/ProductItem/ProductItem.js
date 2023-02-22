@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import basket from '../../images/basket.png'
 import { connect } from 'react-redux';
 import { addToCart } from '../../actions/cartActions';
-import { productPage } from "../../actions/productsActions";
+import PropTypes from "prop-types";
 
 import {
   Container,
@@ -19,29 +17,41 @@ import {
   Brand,
   Name,
   PriceItems,
-  CurrencySymbol
+  CurrencySymbol,
+  StyledLink,
+  Child,
 } from './ProductItemElements'
 
 
 class ProductItem extends Component {
-  static propTypes = {}
+  static propTypes = {
+    addToCart: PropTypes.func,
+  };
+
+  /* send product to cart with all of it's first key values */ 
+  submitToCart = (currentProduct) => {
+    let setAttributes = []
+    let copied = JSON.parse(JSON.stringify(currentProduct));
+    if(copied.attributes.length > 0) {
+      currentProduct.attributes.forEach((property) => {
+        setAttributes.push({name: property.name, value: property.items[0].value})
+        copied.attributes = setAttributes;
+      })
+      this.props.addToCart(copied)
+    }
+  };
 
   render() {
+
     /* Received props from productList page,
     for the sending of a product at a time to the cart in the store */ 
-    const { name, brand, gallery, id, prices, inStock, attributes, description} = this.props.prod;
-    let currentProduct = this.props.prod;
-    
-    const productToRedux = () => {
-      // window.localStorage.setItem('currentProduct', JSON.stringify(currentProduct));
-      this.props.productPage(currentProduct)
-    }
-
+    const { name, brand, gallery, id, prices, inStock, attributes} = this.props.prod;
+    const currentProduct = this.props.prod;
     let price_index = JSON.parse(window.localStorage.getItem('SelectedCurrency'))
- 
+
     return (
-      /* Add props to container to disable out of stock items */
       <Container instock={inStock}>
+        <StyledLink to={`/product/${id}`}>
           <Wrapper>
             <ProductImage>
               <ImageG>
@@ -51,23 +61,24 @@ class ProductItem extends Component {
                   <Stock>OUT OF STOCK</Stock>
                 }
               </ImageG>
-              {/* Dynamically add the id of each product to it's url  */}
-              <Link to={`/product/${id}`}> 
                 { 
                   /*
                   Add click event to send the current product to the cart,
                   Also introduced count property to each product for the purpose of counting equal items
                   */ 
-                  attributes.length === 0 ?
-                  (<ProductSelector onClick={() => this.props.addToCart({...currentProduct, count: 1})}>
-                    <SelectIcon src={basket} />
-                  </ProductSelector>)
+                inStock && (attributes.length === 0 ?
+                  (<Child onClick={(e)=> e.preventDefault()}>
+                    <ProductSelector onClick={() => this.props.addToCart({...currentProduct, count:1})}>
+                      <SelectIcon src={basket} />
+                    </ProductSelector>
+                  </Child>)
                   :
-                  (<ProductSelector onClick={() => productToRedux()}>
-                    <SelectIcon src={basket} />
-                  </ProductSelector>)
+                  (<Child onClick={(e)=> e.preventDefault()}>
+                    <ProductSelector onClick={() => this.submitToCart({...currentProduct, count:1})}>
+                      <SelectIcon src={basket} />
+                    </ProductSelector>
+                  </Child>))
                 }
-              </Link>
             </ProductImage>
             <ProductInfo>
               <Brand>{brand}</Brand>
@@ -75,11 +86,12 @@ class ProductItem extends Component {
               
               <PriceItems>
                 <CurrencySymbol>
-                  {prices[price_index].currency.symbol} {prices[price_index].amount}
+                  {prices[price_index].currency.symbol} {prices[price_index].amount.toFixed(2)}
                 </CurrencySymbol>
               </PriceItems>
             </ProductInfo>
-        </Wrapper>
+          </Wrapper>
+        </StyledLink>
       </Container>
     )
   }
@@ -98,5 +110,6 @@ ProductItem.propTypes = {
 }
 
 /* connect this component to the state for access to data and also dispatch actions */ 
-export default connect((state) => ({ currentCurrency: state.currency , 
-  products: state.products}), { addToCart, productPage })(ProductItem)
+export default connect((state) => ({ currentCurrency: state.currency }),
+ { addToCart, })(ProductItem);
+ 

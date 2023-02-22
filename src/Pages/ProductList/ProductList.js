@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Pagination from '../../components/pagination/Pagination'
 import ProductItem from '../../components/ProductItem/ProductItem'
-import { productsLength } from "../../actions/paginationActions";
 import { data } from '../../Data/staticData';
 import PropTypes from "prop-types";
 
@@ -22,11 +20,6 @@ class ProductList extends Component {
       productsPerPage: 8,
       categoryNumber: 0,
     }
-  }
-
-  /* set total number of products to redux */ 
-  setTotalProducts = (totalProducts) => {
-    this.props.productsLength(totalProducts)
   }
 
    /* Change page */
@@ -51,7 +44,6 @@ class ProductList extends Component {
     const {categoryProducts} = this.props
 
     totalProducts = currentData.length;
-    this.setTotalProducts(totalProducts)
 
     return (
       <Container >
@@ -64,11 +56,6 @@ class ProductList extends Component {
               <ProductItem key={index} prod={prod} />
             ))
           }
-          <PaginationContainer>
-            <Pagination productsPerPage={productsPerPage} 
-            totalProducts={totalProducts} changePage={this.changePage}
-            />
-          </PaginationContainer>
         </Wrap>
       </Container>
     )
@@ -80,10 +67,8 @@ ProductList.propTypes = {
     params: PropTypes.shape({
       name: PropTypes.string
     })
-  }),
-  productsLength: PropTypes.func,
+  })
 }
 
 /* Connect this component to the state */
-export default connect((state)=>({ categoryProducts: state.products }), 
-{ productsLength })(ProductList);
+export default connect((state)=>({ categoryProducts: state.products }))(ProductList);
