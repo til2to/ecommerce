@@ -37,4 +37,8 @@ class Overlay extends Component {
   }
 }
 
+Overlay.propTypes = {
+  hideOverlay: PropTypes.func,
+}
+
 export default Overlay

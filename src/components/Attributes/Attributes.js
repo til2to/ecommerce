@@ -65,4 +65,15 @@ class Attributes extends Component {
   }
 }
 
+Attributes.propTypes = {
+  noArrows: PropTypes.bool,
+  item: PropTypes.shape({
+    name: PropTypes.string,
+    type: PropTypes.string,
+    items: PropTypes.array
+  }),
+  handleClick: PropTypes.func,
+  selectedAttributes: PropTypes.object
+}
+
 export default Attributes

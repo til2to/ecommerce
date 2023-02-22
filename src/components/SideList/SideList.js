@@ -29,4 +29,9 @@ export class SideList extends Component {
   }
 }
 
+SideList.propTypes = {
+  gallery: PropTypes.array,
+  tab: PropTypes.func
+}
+
 export default SideList

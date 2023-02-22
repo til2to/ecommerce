@@ -72,6 +72,14 @@ class MyBag extends Component {
   }
 }
 
+MyBag.propTypes = {
+  cartItems: PropTypes.shape({
+    cart: PropTypes.array,
+    quantity: PropTypes.number
+  }),
+  hideOverlay: PropTypes.func
+}
+
 /* connect this component to the state for access to data */ 
 export default connect((state) => ({ cartItems: state.cart, currentCurrency: state.currency }),
   null)(MyBag)

@@ -24,9 +24,6 @@ import {
 
 
 class ProductItem extends Component {
-  constructor(props){
-    super(props);
-  }
   static propTypes = {}
 
   render() {
@@ -86,6 +83,18 @@ class ProductItem extends Component {
       </Container>
     )
   }
+}
+
+ProductItem.propTypes = {
+  prod: PropTypes.shape({
+    name: PropTypes.string,
+    brand: PropTypes.string.isRequired,
+    gallery: PropTypes.array,
+    id: PropTypes.string,
+    prices: PropTypes.array,
+    attributes: PropTypes.array,
+    inStock: PropTypes.bool,
+  }),
 }
 
 /* connect this component to the state for access to data and also dispatch actions */ 

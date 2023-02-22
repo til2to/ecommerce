@@ -45,6 +45,5 @@ export const ColorContainer = styled.div`
   margin: 6px;
   margin-left: 0;
   cursor: pointer;
-  // background: ${props => props.color.value};
   background: ${props => props.color};
 `

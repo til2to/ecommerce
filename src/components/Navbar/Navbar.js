@@ -85,5 +85,11 @@ class Navbar extends Component {
   }
 }
 
+Navbar.propTypes = {
+  cartItems: PropTypes.shape({
+    quantity: PropTypes.number
+  })
+}
+
 /* connect this component to the state for access to data */ 
 export default connect((state) => ({ cartItems: state.cart }), null)(Navbar);

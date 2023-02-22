@@ -4,6 +4,7 @@ import Pagination from '../../components/pagination/Pagination'
 import ProductItem from '../../components/ProductItem/ProductItem'
 import { productsLength } from "../../actions/paginationActions";
 import { data } from '../../Data/staticData';
+import PropTypes from "prop-types";
 
 import {
   Container,
@@ -72,6 +73,15 @@ class ProductList extends Component {
       </Container>
     )
   }
+}
+
+ProductList.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      name: PropTypes.string
+    })
+  }),
+  productsLength: PropTypes.func,
 }
 
 /* Connect this component to the state */

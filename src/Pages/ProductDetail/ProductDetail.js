@@ -176,6 +176,15 @@ class ProductDetail extends Component {
   }
 }
 
+ProductDetail.propTypes = {
+  addToCart: PropTypes.func,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string
+    })
+  })
+}
+
 /* connect this component to the state for access to data */ 
 export default connect((state) => ({currentCurrency: state.currency, 
   product: state.products}), { addToCart })(ProductDetail)

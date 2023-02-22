@@ -106,6 +106,10 @@ class CurrencySelector extends Component {
   }
 }
 
+CurrencySelector.propTypes = {
+  changeCurrency: PropTypes.func
+}
+
 /* connect the changeCurrency action to this component to help 
 redux handle the currency changes */
 export default connect(null, { changeCurrency })(CurrencySelector)
