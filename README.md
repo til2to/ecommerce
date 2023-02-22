@@ -193,8 +193,6 @@ If you like this project... thumbs up and please follow my github page
 
 ## ❓ FAQ (OPTIONAL) <a name="faq"></a>
 
-> Add at least 2 questions new developers would ask when they decide to use your project.
-
 - *How was the browser's storage and redux used interchangeably*
 
   - Always be mindful of the return statement for the state in the redux like was followed in this project

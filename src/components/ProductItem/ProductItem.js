@@ -3,6 +3,7 @@ import basket from '../../images/basket.png'
 import { connect } from 'react-redux';
 import { addToCart } from '../../actions/cartActions';
 import PropTypes from "prop-types";
+import { productPage } from "../../actions/productsActions";
 
 import {
   Container,
@@ -42,17 +43,20 @@ class ProductItem extends Component {
   };
 
   render() {
-
     /* Received props from productList page,
     for the sending of a product at a time to the cart in the store */ 
     const { name, brand, gallery, id, prices, inStock, attributes} = this.props.prod;
     const currentProduct = this.props.prod;
+
+    const productToRedux = () => {
+      this.props.productPage(currentProduct)
+    }
     let price_index = JSON.parse(window.localStorage.getItem('SelectedCurrency'))
 
     return (
       <Container instock={inStock}>
         <StyledLink to={`/product/${id}`}>
-          <Wrapper>
+          <Wrapper onClick={() => productToRedux()}>
             <ProductImage>
               <ImageG>
                 <Gallery src={gallery[0]} />
@@ -110,6 +114,6 @@ ProductItem.propTypes = {
 }
 
 /* connect this component to the state for access to data and also dispatch actions */ 
-export default connect((state) => ({ currentCurrency: state.currency }),
- { addToCart, })(ProductItem);
+export default connect((state) => ({ currentCurrency: state.currency , 
+  products: state.products}), { addToCart, productPage })(ProductItem)
  

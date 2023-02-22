@@ -45,52 +45,52 @@ class ProductDetail extends Component {
     });
   };
 
-  /* function to submit product to cart with the selected attributes */ 
-  submitToCart = async (currentProduct) => {
-    const objectArray = Object.entries(this.state.product); //convert object to array
-    let newAttributes = []; // new array for product's attributes
-    objectArray.forEach(([key, value]) => {
-      newAttributes.push({ name: key, value: value });
-    });
+ /* function to submit product to cart with the selected attributes */ 
+ submitToCart = async (currentProduct, inStock) => {
+  const objectArray = Object.entries(this.state.product); //convert object to array
+  let newAttributes = []; // new array for product's attributes
+  objectArray.forEach(([key, value]) => {
+    newAttributes.push({ name: key, value: value });
+  });
 
-    // update the product's attributes
-    let copied = JSON.parse(JSON.stringify(currentProduct));
-    copied.attributes = newAttributes;
+  // update the product's attributes
+  let copied = JSON.parse(JSON.stringify(currentProduct));
+  copied.attributes = newAttributes;
 
-    // Store the original attributes before selection
-    let setAttribtes = []
- 
-    /* compare the setAttributes to the selected attributes 
-    and use the differences as for preselection */ 
-    if(copied.attributes.length !== currentProduct.length) {
-      currentProduct.attributes.forEach((property) => {
-        /* store and structure the setAttributes array as the 
-        newAttributes array */
-        setAttribtes.push({name: property.name, value: property.items[0].value})
-      })
-      /* check for attributes in the setAttributes but not in the newAttributes
-      and put those attributes in the newAttributes  */ 
-      let result = setAttribtes.filter(el1 => 
-        !newAttributes.some(el2 => el1.name === el2.name));
-      
-      result.map(el => {
-        newAttributes.push(el)
-        return null
-      })
+  // Store the original attributes before selection
+  let setAttributes = []
 
-      /* now using the action, send current product with the selected 
-      and pre-selected attributes to cart in the store. */
-      this.props.addToCart(copied)
-      newAttributes = []
-    }
+  /* compare the setAttributes to the selected attributes 
+  and use the differences as for preselection */ 
+  if(copied.attributes.length !== currentProduct.length) {
+    currentProduct.attributes.forEach((property) => {
+      /* store and structure the setAttributes array as the 
+      newAttributes array */
+      setAttributes.push({name: property.name, value: property.items[0].value})
+    })
+    /* check for attributes in the setAttributes but not in the newAttributes
+    and put those attributes in the newAttributes  */ 
+    let result = setAttributes.filter(el1 => 
+      !newAttributes.some(el2 => el1.name === el2.name));
+    
+    result.map(el => {
+      newAttributes.push(el)
+      return null
+    })
 
-    /* if the length of the attributes arrays are equal, do nothing 
-    but send the product */ 
-    else {
-      this.props.addToCart(copied)
-      newAttributes = []
-    }
-  };
+    /* using the action, send current product with the selected 
+    and pre-selected attributes to cart in the store. */
+    inStock && this.props.addToCart(copied)
+    newAttributes = []
+  }
+
+  /* if the length of the attributes arrays are equal, do nothing 
+  but send the product */ 
+  else {
+    inStock && this.props.addToCart(copied)
+    newAttributes = []
+  }
+};
 
   /* function set the state based on the index of the current image 
   to help change the side images */
