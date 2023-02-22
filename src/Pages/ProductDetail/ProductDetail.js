@@ -106,7 +106,7 @@ class ProductDetail extends Component {
 
     /* use the all the properties to define the product */
     const { prices, gallery, name, brand, 
-      description, attributes, id } = currentProduct;
+      description, attributes, id, inStock } = currentProduct;
       
     return (
         <Container currentProduct={currentProduct}>
@@ -156,15 +156,10 @@ class ProductDetail extends Component {
             {
               /* Add click event to submit the current product to the 
               cart with a count property */
-              attributes.length !== 0 ? 
-              (<Button 
-              onClick={() => this.submitToCart({ ...currentProduct, count:1 })}>
+              <Button 
+              onClick={() => this.submitToCart({ ...currentProduct, count:1 }, inStock)}>
                 ADD TO CART
-              </Button>) : 
-              (<Empty>
-                Sorry! no attributes to select. Product already added to
-                cart
-              </Empty>)
+              </Button>
             }
             <ProductDescription>
               <div dangerouslySetInnerHTML={{ __html: description }} />
