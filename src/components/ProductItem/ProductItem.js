@@ -51,7 +51,12 @@ class ProductItem extends Component {
     const productToRedux = () => {
       this.props.productPage(currentProduct)
     }
-    let price_index = JSON.parse(window.localStorage.getItem('SelectedCurrency'))
+
+    if (!localStorage.SelectedCurrency) {
+      localStorage.SelectedCurrency = 0;
+      //  price_index = JSON.parse(window.localStorage.getItem('SelectCurrency'))
+    }
+    let price_index = JSON.parse(window.localStorage.getItem('SelectedCurrency'));
 
     return (
       <Container instock={inStock}>
