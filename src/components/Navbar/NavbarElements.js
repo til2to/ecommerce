@@ -85,7 +85,7 @@ export const TotalItems = styled.div`
   bottom: 10px;
   left: 10px;
 `;
-export const MyBag_Bag = styled.div``;
+export const MyBag = styled.div``;
 
 export const Symbol_Label = styled.div`
 `;

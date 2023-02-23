@@ -14,7 +14,7 @@ export const Wrapper = styled.span`
   max-width: 150px;
   color: #000;
   padding-bottom: 20px;
-  border-bottom: ${props => props.indexVal == props.stateVal ? 
+  border-bottom: ${props => props.indexVal === props.stateVal ? 
     '1px solid #5ece7b' : {}
   }
 `

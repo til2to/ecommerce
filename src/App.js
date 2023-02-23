@@ -1,6 +1,5 @@
 import "./App.css";
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Navbar from "./components/Navbar/Navbar";
 import Products from "./Pages/ProductList/ProductList";
 import Product from "./Pages/ProductDetail/ProductDetail";
@@ -41,7 +40,6 @@ class App extends Component {
   render() {
     this.setCurrency(data.categories[1].products[0]?.prices)
     
-    {/* Connect store to the app */}
     return (
       <Provider store={store}>
         <Router>

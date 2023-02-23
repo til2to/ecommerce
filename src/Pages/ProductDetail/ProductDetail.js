@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Query } from "react-apollo";
 import Attributes from "../../components/Attributes/Attributes";
 import SideList from "../../components/SideList/SideList";
 import { connect } from "react-redux";
@@ -12,7 +11,6 @@ import {
   Name,
   Brand,
   Button,
-  Empty,
   PriceInfo,
   AttributePrice,
   Image,
@@ -106,7 +104,7 @@ class ProductDetail extends Component {
 
     /* use the all the properties to define the product */
     const { prices, gallery, name, brand, 
-      description, attributes, id, inStock } = currentProduct;
+      description, attributes, inStock } = currentProduct;
       
     return (
         <Container currentProduct={currentProduct}>

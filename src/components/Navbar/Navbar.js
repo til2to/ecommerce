@@ -18,7 +18,7 @@ import {
   NavLogo,
   CurrencyItems,
   ArrowContainer,
-  MyBag_Bag,
+  MyBag,
   Bag,
   TotalItems
 } from './NavbarElements'
@@ -49,7 +49,7 @@ class Navbar extends Component {
 
   render() {
     // Get the quantity of items/products in cart state.
-    const { cartItems: { cart, quantity } } = this.props;
+    const { cartItems: { quantity } } = this.props;
     const { toggleOverlay } = this.state;
 
     return (
@@ -68,12 +68,12 @@ class Navbar extends Component {
                 <CurrencySelector />
               </ArrowContainer>
               {/* Add click event to toggle the modal/overlay */}
-              <MyBag_Bag onClick={()=>this.showOverlay()} >
+              <MyBag onClick={()=>this.showOverlay()} >
                 <Bag>
                   <TotalItems>{quantity}</TotalItems>
                   <img src={basket_} alt="" />
                 </Bag>
-              </MyBag_Bag>
+              </MyBag>
               {/* Add click event to close the overlay when outside area is clicked */}
               {toggleOverlay && 
               <Overlay  hideOverlay={this.hideOverlay} />}

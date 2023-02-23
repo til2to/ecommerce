@@ -8,7 +8,6 @@ import {
   Container,
   CategoryName,
   Wrap,
-  PaginationContainer,
 } from './ProductListElements'
 
 
@@ -40,10 +39,9 @@ class ProductList extends Component {
       indexOfFirstPost, indexOfLastPost
     )
 
-    let totalProducts;
-    const {categoryProducts} = this.props
-
-    totalProducts = currentData.length;
+    // let totalProducts;
+    // totalProducts = currentData.length;
+    // const {categoryProducts} = this.props
 
     return (
       <Container >

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
 import { data } from '../../Data/staticData';
 import { connect } from "react-redux";
 import { productsCategoryBased, } from "../../actions/productsActions";
@@ -30,8 +29,8 @@ class Categories extends Component {
 
   render() {
     const { activeIndex } = this.state
-    let currentCategory = JSON.parse(window.localStorage.getItem('categoryIndex')) || 0;
-    let currentData = data.categories[currentCategory].products
+    // let currentCategory = JSON.parse(window.localStorage.getItem('categoryIndex')) || 0;
+    // let currentData = data.categories[currentCategory].products
 
     // store categories
     const categoryArr = []
@@ -48,8 +47,6 @@ class Categories extends Component {
                 <Wrapper key={index} indexVal={index} stateVal={activeIndex} 
                 onClick={() => this.handleActive(index)}
                 > 
-                  {/* {window.localStorage.setItem('categoryIndex', JSON.stringify(activeIndex))} */}
-                  {/* {window.localStorage.setItem('product', JSON.stringify(currentData))} */}
                   {category.toUpperCase()} 
                 </Wrapper>
               </StyledLink>
