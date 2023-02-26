@@ -122,8 +122,6 @@ class ProductDetail extends Component {
             <Brand>{brand}</Brand>
             <Name>{name}</Name>
             <AttributesContainer>
-              {/* loop through product's array and pass as 
-              props to attributes component */}
               {attributes.map((item) => (
                 <Attributes
                   key={item.id}

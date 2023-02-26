@@ -1,6 +1,5 @@
 import * as actions from '../Types';
 
-
 let product = JSON.parse(window.localStorage.getItem('product')) || {};
 let index = JSON.parse(window.localStorage.getItem('categoryIndex'));
 

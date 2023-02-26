@@ -1,10 +1,39 @@
+import { Link as LinkRouter} from "react-router-dom"
 import styled from "styled-components";
-
+import { COLORS } from "../../constants";
 
 export const Container = styled.div`
   height: 60px;
   z-index: 1;
 `;
+export const NavBtnLink = styled(LinkRouter)`
+  border-radius: 50px;
+  background: ${COLORS.primary};
+  white-space: nowrap;
+  padding: 10px 22px;
+  color: ${COLORS.primaryDark};
+  font-size: 16px;
+  outline: none;
+  border: none;
+  font-family: "Nunito-SemiBold";
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+
+  &:hover{
+    transition: all 0.2s ease-in-out;
+    color: ${COLORS.accent};
+    background: ${COLORS.primaryDark};
+  }
+`
+export const NavBtn = styled.nav`
+  display: flex;
+  align-items: center;
+
+  @media screen and (max-width : 768px){
+    display: none;
+  } 
+`
+
 export const Wrapper = styled.div`
   display: flex;
   justify-content: center;

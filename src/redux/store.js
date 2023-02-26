@@ -4,7 +4,7 @@ import { cartReducer } from '../reducers/cartReducers';
 import { currencyReducer } from '../reducers/currencySwitchReducers';
 import { paginationReducer } from '../reducers/paginationReducers';
 import { productsCategory } from '../reducers/displayProductsReducers';
-
+import { login } from '../reducers/loginPageReducers';
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // Add the two reducers to the store
@@ -14,6 +14,7 @@ const store = createStore(
     currency: currencyReducer,
     pagination: paginationReducer,
     products: productsCategory, 
+    loginPage: login,
   }),
      
   composeEnhancer(applyMiddleware(thunk))

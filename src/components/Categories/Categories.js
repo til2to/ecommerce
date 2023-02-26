@@ -29,8 +29,6 @@ class Categories extends Component {
 
   render() {
     const { activeIndex } = this.state
-    // let currentCategory = JSON.parse(window.localStorage.getItem('categoryIndex')) || 0;
-    // let currentData = data.categories[currentCategory].products
 
     // store categories
     const categoryArr = []
