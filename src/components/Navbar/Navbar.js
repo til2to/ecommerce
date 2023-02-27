@@ -66,12 +66,12 @@ class Navbar extends Component {
     return (
       <>
         <NavBtn onClick={()=>handleSigninBtn()}>
-          {!showLoginStatus && (
-            <NavBtnLink to="/signin">Sign in</NavBtnLink>
-          )}
+          {/* {!showLoginStatus && ( */}
+            <NavBtnLink to="/signin">Sign out</NavBtnLink>
+          {/* )} */}
         </NavBtn>
 
-        {!showLoginStatus && (
+        {/* {!showLoginStatus && ( */}
           <Container>
             <Wrapper>
               <NavLeft>
@@ -99,7 +99,7 @@ class Navbar extends Component {
               </NavRight>
             </Wrapper>
           </Container>
-        )}
+        {/* )} */}
       </>
     );
   }

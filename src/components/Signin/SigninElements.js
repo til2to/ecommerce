@@ -90,7 +90,7 @@ export const FormLabel = styled.label`
 `;
 
 export const FormInput = styled.input`
-  padding: 16px;
+  padding: 10px 16px;
   margin-bottom: 32px;
   border: none;
   border-radius: 4px;
@@ -98,7 +98,7 @@ export const FormInput = styled.input`
 
 export const FormButton = styled.button`
   background: ${COLORS.primary};
-  padding: 16px 0;
+  padding: 10px 16px;
   border: none;
   border-radius: 4px;
   color: ${COLORS.primaryDark};
@@ -113,23 +113,36 @@ export const Text = styled.span`
   font-size: 14px;
 `;
 export const GoogleContainer = styled.div`
-  background-color: white;
+  background-color: ${COLORS.primaryDark};
   display: flex;
   flex-direction: column;
-  padding: 8px 10px;
+  padding: 5px 5px;
   border-radius: 4px;
 `
 export const GoogleButton = styled.span`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px 16px;
   border: 1px solid gray;
   border-radius: 4px;
   font-size: 13px;
   text-align: center;
   cursor: pointer;
 `
+
+export const GoogleButtonA = styled.button`
+  background-color: white;
+  color: #757575;
+  font-weight: bold;
+  border-radius: 4px;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+`;
+
 export const GoogleIcon = styled.img`
   height: 30px;
   position: absolute;
@@ -140,5 +153,6 @@ export const GoogleLabel = styled.span`
   border: none;
   border-radius: 4px;
   text-align: center;
-  margin-top: 10px;
+  margin: 10px 0;
+  color: ${COLORS.accent};
 `

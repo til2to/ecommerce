@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { auth } from './firebase';
+import { auth, provider } from './firebase';
 import { withRouter } from 'react-router-dom';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  signInWithPopup 
+} from 'firebase/auth';
 
 import { data } from "../../Data/staticData";
 import google from "./google.png";
@@ -21,21 +25,10 @@ import {
   GoogleButton,
   GoogleLabel,
   GoogleContainer,
+  GoogleButtonA,
   GoogleIcon,
   Home,
 } from "./SigninElements";
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCwcSm8DeCABGJ2iEawOENgUfiFdZrwFf0",
-  authDomain: "ecommerce-f82d1.firebaseapp.com",
-  projectId: "ecommerce-f82d1",
-  storageBucket: "ecommerce-f82d1.appspot.com",
-  messagingSenderId: "504509720798",
-  appId: "1:504509720798:web:282753dd118438a2243a4f",
-  measurementId: "G-CMHK3KTR74"
-};
 
 class Signin extends Component {
   static propTypes = {};
@@ -45,11 +38,29 @@ class Signin extends Component {
       showLogin: true,
       password: '',
       email: '',
+      loading: false,
+    }
+  }
+
+  handleSignInWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log(result.user);
+      this.props.history.push('/products/all')
+    } 
+    catch (error) {
+      if (error.code === 'auth/popup-closed-by-user') {
+        console.log('Sign in cancelled by user');
+      }
+      console.error(error);
+    }
+    finally {
+      this.setState({ loading: false })
     }
   }
 
   render() {
-    const { showLogin, email, password } = this.state;
+    const { email, password, loading } = this.state;
     const { history } = this.props
     
     /* use currentPage variable to navigate back to the exact previous page */
@@ -72,24 +83,23 @@ class Signin extends Component {
       //   firebase auth
       signInWithEmailAndPassword(auth, email, password)
       .then((auth) => {
+        handleSignin()
         history.push('/products/all')
       })
       .catch(error => alert(error.message))
     }
-
+    
     const register = (e) => {
       e.preventDefault();
-  
       // firebase authentication
       createUserWithEmailAndPassword(auth, email, password)
         .then((auth) => { 
           // the auth object comes back on success
           console.log(auth);
-
           // if auth is not empty i.e user created so redirect user
           if (auth){
+            handleSignin()
             history.push('/products/all')
-            console.log('user created')
           }
         })
       // else return a message
@@ -98,40 +108,37 @@ class Signin extends Component {
 
     return (
       <>
-        {showLogin === true && 
+        {/* {showLogin === true &&  */}
         <Container>
         <FormWrap>
-          <Icon to={`/products/${data.categories[currentPage].name}`}>
+          {/* <Icon to={`/products/${data.categories[currentPage].name}`}>
             <Home onClick={() => handleSignin()}>
               mariD
             </Home>
-          </Icon>
+          </Icon> */}
           <FormContent>
             <Form action="">
               <FormH1>Sign in to your account</FormH1>
               <FormLabel htmlFor="for">Email</FormLabel>
               <FormInput type="email" required value={email} onChange={changeEmail}/>
-              <h1 style={{color: 'white'}}>{email}</h1>
               <FormLabel htmlFor="for">Password</FormLabel>
               <FormInput type="password" required value={password} onChange={changePassword}/>
-              <h1 style={{color: 'white'}}>{password}</h1>
               <FormButton type="submit" onClick={signIn}>Continue</FormButton>
               <GoogleContainer>
-                <GoogleButton>
-                  {/* <GoogleIcon src={google} alt="" /> */}
-                  <h2>Sign in with Google</h2>
-                </GoogleButton>
+                <GoogleButtonA disabled={loading} onClick={this.handleSignInWithGoogle}>
+                  Sign in with Google
+                </GoogleButtonA>
                 <GoogleLabel>Have an account? Sign in</GoogleLabel>
-                <GoogleButton onClick={register}>
-                  {/* <GoogleIcon src={google} alt="" /> */}
-                  <h2>Don't have an account? Sign up</h2>
-                </GoogleButton>
+                <GoogleButtonA onClick={register}>
+                  Don't have an account? Sign up
+                </GoogleButtonA>
               </GoogleContainer>
               <Text>Forgot password?</Text>
             </Form>
           </FormContent>
         </FormWrap>
-      </Container>}
+      </Container>
+      {/* } */}
       </>
     );
   }

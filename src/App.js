@@ -4,6 +4,7 @@ import store from "./redux/store";
 import { Provider } from "react-redux";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { showLoginPage } from "././actions/loginActions";
 
 import Navbar from "./components/Navbar/Navbar";
 import Products from "./Pages/ProductList/ProductList";
@@ -11,14 +12,14 @@ import Product from "./Pages/ProductDetail/ProductDetail";
 import Cart from "./Pages/Cart/Cart";
 import { data } from "./Data/staticData";
 import Signin from "./components/Signin/Signin";
-import { showLoginPage } from "././actions/loginActions";
-
+import Home from "./Pages/Home";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
+
 
 class App extends Component {
   constructor(props) {
@@ -61,21 +62,19 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <Container>
+          {/* <Container>
             <Navbar />
-          </Container>
+          </Container> */}
           <div className="app">
             <Switch>
-              {/* path to the cart */}
-              <Route exact path="/cart" component={Cart} />
-              {/* path based on product id */}
+              {/* <Route exact path="/cart" component={Cart} />
               <Route path="/product/:id/" component={Product} />
-              {/* path based on category name */}
-              <Route path="/products/:name/" component={Products} />
+              <Route path="/products/:name/" component={Products} /> */}
               <Route exact path="/">
                 <Redirect to="/signin" />
               </Route>
-              {showLogin && <Route exact path="/signin" component={Signin} />}
+              <Route exact path="/signin" component={Signin} />
+              <Route exact pathe="/products/:name" component={Home} />
             </Switch>
           </div>
         </Router>
