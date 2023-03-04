@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link as LinkRouter } from "react-router-dom";
 
 import { COLORS } from "../../constants";
-import google from './google.png' 
+// import google from './google.png' 
 
 export const Container = styled.div`
   min-height: 692px;
@@ -11,10 +11,9 @@ export const Container = styled.div`
   top: 0;
   z-index: 0;
   overflow: hidden;
-  // margin-top: 8%;
+  margin-top: 6%;
   // background: ${COLORS.accent};
 `;
-
 export const FormWrap = styled.div`
   height: 100%;
   display: flex;
@@ -27,15 +26,14 @@ export const FormWrap = styled.div`
 `;
 export const Icon = styled(LinkRouter)`
   margin-top: 32px;
-  color: ${COLORS.primaryDark};
+  color: ${COLORS.primary};
   font-family: "Righteous-Regular";
-  justify-self: flex-start;
+  justify-self: center !important;
   width: max-content;
   cursor: pointer;
-  font-size: 1.7rem;
+  font-size: 2rem;
   display: flex;
   align-items: center;
-  margin-left: 24px;
   font-weight: bold;
   text-decoration: none;
 
@@ -60,15 +58,15 @@ export const FormContent = styled.div`
 
 export const Form = styled.form`
   background: ${COLORS.primaryDark};
-  max-width: 400px;
+  max-width: 370px;
   height: auto;
   width: 100%;
   z-index: 1;
   display: grid;
   margin: 0 auto;
-  padding: 80px 32px;
+  padding: 60px 32px;
   border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
 
   @media screen and (max-width: 400px) {
     padding: 32px;
@@ -85,7 +83,7 @@ export const FormH1 = styled.h1`
 
 export const FormLabel = styled.label`
   margin-bottom: 8px;
-  font-size: 14px;
+  font-size: 18px;
   color: ${COLORS.accent};
 `;
 
@@ -94,6 +92,7 @@ export const FormInput = styled.input`
   margin-bottom: 32px;
   border: none;
   border-radius: 4px;
+  font-size: 16px
 `;
 
 export const FormButton = styled.button`

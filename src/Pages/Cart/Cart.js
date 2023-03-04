@@ -12,6 +12,7 @@ import {
   Items,
   Button
 } from './CartElements'
+import { withRouter } from 'react-router-dom';
 
 
 class Cart extends Component {
@@ -21,7 +22,6 @@ class Cart extends Component {
     let price_index = JSON.parse(window.localStorage.getItem('SelectedCurrency')) || 0
     let local_data = JSON.parse(window.localStorage.getItem('data'))
     let tax = 0.21 * cartTotal
-    console.log(typeof local_data)
     return (
       <Container>
         <Wrapper>
@@ -73,4 +73,4 @@ Cart.propTypes = {
 }
 
 // connect this component to the state for access to data
-export default connect((state) => ({ cartItems: state.cart, currentCurrency: state.currency }), null)(Cart)
+export default withRouter(connect((state) => ({ cartItems: state.cart, currentCurrency: state.currency }), null)(Cart))

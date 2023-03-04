@@ -10,7 +10,6 @@ export const login = (state = initialState, action) => {
   switch (action.type) {
     case actions.LOGIN_PAGE:
       let loginPageStatus = action.payload;
-      console.log(loginPageStatus)
       window.localStorage.setItem("loginPage", loginPageStatus);
       return loginPageStatus;
 

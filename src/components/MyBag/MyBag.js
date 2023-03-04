@@ -59,7 +59,7 @@ class MyBag extends Component {
           <ButtonsContainer>
             {/* use props from navbar component for click event to toggle 
             this component and these buttons */}
-            <StyledLink to='/cart'>
+            <StyledLink to="/cart">
               <Button onClick={hideOverlay}> VIEW BAG </Button>
             </StyledLink>
             <StyledLink to='#'>

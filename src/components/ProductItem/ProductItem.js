@@ -119,6 +119,5 @@ ProductItem.propTypes = {
 }
 
 /* connect this component to the state for access to data and also dispatch actions */ 
-export default connect((state) => ({ currentCurrency: state.currency , 
-  products: state.products}), { addToCart, productPage })(ProductItem)
+export default connect((state) => ({ currentCurrency: state.currency, products: state.products}), { addToCart, productPage })(ProductItem)
  

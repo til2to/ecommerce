@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { signOut } from "firebase/auth";
+import { withRouter } from "react-router-dom";
+
+import Overlay from "../Overlay/Overlay";
+import CurrencySelector from "../CurrencySelector/CurrencySelector";
+import { showLoginPage } from "../../actions/loginActions";
 import logo from "../../images/logo.png";
 import basket_ from "../../images/basket_.png";
 import logoH from "../../images/logoH.png";
 import Categories from "../Categories/Categories";
-import { connect } from "react-redux";
-import Overlay from "../Overlay/Overlay";
-import CurrencySelector from "../CurrencySelector/CurrencySelector";
-import { showLoginPage } from "../../actions/loginActions";
-
 import {
   Container,
   Wrapper,
@@ -23,8 +25,11 @@ import {
   Bag,
   TotalItems,
   NavBtnLink,
+  LogOutButton,
   NavBtn,
+  Welcome
 } from "./NavbarElements";
+import { auth } from "../Signin/firebase";
 
 class Navbar extends Component {
   constructor(props) {
@@ -50,55 +55,57 @@ class Navbar extends Component {
     });
   };
 
+  logOut = () => {
+    signOut(auth)
+    .then(() => {
+      // Sign-out successful.
+      this.props.history.push("/signin");
+    })
+    .catch((error) => {
+      // An error happened.
+      console.log("unsuccessful");
+    });
+  };
+
   render() {
     // Get the quantity of items/products in cart state.
-    const {
-      cartItems: { quantity },
-    } = this.props;
+    const { cartItems: { quantity }, currentUser } = this.props;
     const { toggleOverlay } = this.state;
-    let showLoginStatus = JSON.parse(window.localStorage.getItem("loginPage"));
-    console.log(showLoginStatus);
-
-    const handleSigninBtn = () => {
-      this.props.showLoginPage(true)
-    }
-
     return (
       <>
-        <NavBtn onClick={()=>handleSigninBtn()}>
-          {/* {!showLoginStatus && ( */}
-            <NavBtnLink to="/signin">Sign out</NavBtnLink>
-          {/* )} */}
-        </NavBtn>
-
-        {/* {!showLoginStatus && ( */}
-          <Container>
-            <Wrapper>
-              <NavLeft>
-                <Categories />
-              </NavLeft>
-              <NavCenter>
-                <LogoHolder src={logoH} alt="" />
-                <NavLogo src={logo} alt="" />
-              </NavCenter>
-              <NavRight>
-                <CurrencyItems>
-                  <ArrowContainer>
-                    <CurrencySelector />
-                  </ArrowContainer>
-                  {/* Add click event to toggle the modal/overlay */}
-                  <MyBag onClick={() => this.showOverlay()}>
-                    <Bag>
-                      <TotalItems>{quantity}</TotalItems>
-                      <img src={basket_} alt="" />
-                    </Bag>
-                  </MyBag>
-                  {/* Add click event to close the overlay when outside area is clicked */}
-                  {toggleOverlay && <Overlay hideOverlay={this.hideOverlay} />}
-                </CurrencyItems>
-              </NavRight>
-            </Wrapper>
-          </Container>
+        <Container>
+          <NavBtn>
+            <LogOutButton onClick={() => this.logOut()}>
+              Log Out
+            </LogOutButton>
+            <Welcome>welcome: {currentUser.email}</Welcome>
+          </NavBtn>
+          <Wrapper>
+            <NavLeft>
+              <Categories />
+            </NavLeft>
+            <NavCenter>
+              <LogoHolder src={logoH} alt="" />
+              <NavLogo src={logo} alt="" />
+            </NavCenter>
+            <NavRight>
+              <CurrencyItems>
+                <ArrowContainer>
+                  <CurrencySelector />
+                </ArrowContainer>
+                {/* Add click event to toggle the modal/overlay */}
+                <MyBag onClick={() => this.showOverlay()}>
+                  <Bag>
+                    <TotalItems>{quantity}</TotalItems>
+                    <img src={basket_} alt="" />
+                  </Bag>
+                </MyBag>
+                {/* Add click event to close the overlay when outside area is clicked */}
+                {toggleOverlay && <Overlay hideOverlay={this.hideOverlay} />}
+              </CurrencyItems>
+            </NavRight>
+          </Wrapper>
+        </Container>
         {/* )} */}
       </>
     );
@@ -112,7 +119,8 @@ Navbar.propTypes = {
 };
 
 /* connect this component to the state for access to data */
-export default connect(
-  (state) => ({ cartItems: state.cart, login: state.loginPage }),
-  { showLoginPage }
-)(Navbar);
+export default withRouter(
+  connect((state) => ({ cartItems: state.cart, login: state.loginPage }), {
+    showLoginPage,
+  })(Navbar)
+);

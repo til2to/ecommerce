@@ -4,7 +4,11 @@ import ProductItem from "../../components/ProductItem/ProductItem";
 import { data } from "../../Data/staticData";
 import PropTypes from "prop-types";
 
-import { Container, CategoryName, Wrap } from "./ProductListElements";
+import { 
+  Container, 
+  CategoryName, 
+  Wrap 
+} from "./ProductListElements";
 
 class ProductList extends Component {
   constructor(props) {

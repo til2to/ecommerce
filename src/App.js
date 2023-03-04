@@ -1,25 +1,24 @@
-import "./App.css";
 import React, { Component } from "react";
 import store from "./redux/store";
 import { Provider } from "react-redux";
-import styled from "styled-components";
 import { connect } from "react-redux";
-import { showLoginPage } from "././actions/loginActions";
-
-import Navbar from "./components/Navbar/Navbar";
-import Products from "./Pages/ProductList/ProductList";
-import Product from "./Pages/ProductDetail/ProductDetail";
-import Cart from "./Pages/Cart/Cart";
-import { data } from "./Data/staticData";
-import Signin from "./components/Signin/Signin";
-import Home from "./Pages/Home";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./components/Signin/firebase";
+import { withRouter } from "react-router-dom";
 
+import "./App.css";
+import Navbar from "./components/Navbar/Navbar";
+import Cart from "./Pages/Cart/Cart";
+import { data } from "./Data/staticData";
+import Signin from "./components/Signin/Signin";
+import spinner_1 from "./assets/spinner_1.gif";
+import ProductList from "./Pages/ProductList/ProductList";
+import ProductDetail from "./Pages/ProductDetail/ProductDetail";
 
 class App extends Component {
   constructor(props) {
@@ -28,12 +27,29 @@ class App extends Component {
     this.state = {
       currency: window.localStorage.getItem("Currency") || [],
       selectedCurrency: window.localStorage.getItem("SelectedCurrency"),
-      showLogin: JSON.parse(window.localStorage.getItem('loginPage')),
+      isAuthenticated: false,
+      isLoading: true,
+      currentUser: '' 
     };
   }
 
   async componentDidMount() {
     const { selectedCurrency } = this.state;
+    // Set up auth state change listener
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        this.setState({ 
+          isAuthenticated: true, 
+          isLoading: false , 
+          currentUser: user
+        });
+      } else {
+        // User is signed out
+        this.setState({ isAuthenticated: false, isLoading: false });
+        return this.props.history.push("/signin");
+      }
+    });
     if (selectedCurrency === null)
       window.localStorage.setItem("SelectedCurrency", 0);
   }
@@ -43,38 +59,35 @@ class App extends Component {
     window.localStorage.setItem("Currency", JSON.stringify(prices));
   }
 
-  handleSignin = () => {
-    if(this.state.showLogin === null){
-      window.localStorage.setItem('loginPage', true)
-      let loginPage = JSON.parse(window.localStorage.getItem('loginPage'))
-      this.setState({
-        showLogin: loginPage
-      })
-    }
-  };
-  
   render() {
-    const { showLogin } = this.state;
+    const { isAuthenticated, isLoading, currentUser } = this.state;
     this.setCurrency(data.categories[1].products[0]?.prices);
-    
-    this.handleSignin();
+
+    if (isLoading) {
+      document.body.classList.add("loading");
+      return (
+        <div className="app-spin">
+          <img src={spinner_1} alt="loading" />
+        </div>
+      );
+    } else {
+      document.body.classList.remove("loading");
+    }
 
     return (
       <Provider store={store}>
         <Router>
-          {/* <Container>
-            <Navbar />
-          </Container> */}
+          {isAuthenticated && <Navbar currentUser={currentUser}/>}
           <div className="app">
             <Switch>
-              {/* <Route exact path="/cart" component={Cart} />
-              <Route path="/product/:id/" component={Product} />
-              <Route path="/products/:name/" component={Products} /> */}
-              <Route exact path="/">
-                <Redirect to="/signin" />
-              </Route>
-              <Route exact path="/signin" component={Signin} />
-              <Route exact pathe="/products/:name" component={Home} />
+              {!isAuthenticated && <Route path="/" component={Signin} />}
+              {isAuthenticated && <Route exact path="/cart" component={Cart} />}
+              {isAuthenticated && (
+                <Route path="/products/:name/" component={ProductList} />
+              )}
+              {isAuthenticated && (
+                <Route path="/product/:id/" component={ProductDetail} />
+              )}
             </Switch>
           </div>
         </Router>
@@ -84,9 +97,6 @@ class App extends Component {
 }
 
 // export default App;
-export default connect((state) => ({ login: state.loginPage }), { showLoginPage })(App);
-
-const Container = styled.div`
-  padding: 10px;
-  margin: 0 15 0 25px;
-`;
+export default withRouter(
+  connect((state) => ({ login: state.loginPage }), null)(App)
+);

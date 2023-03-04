@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 
-
 /* Add props to handle the height when th bag is empty */ 
 export const Container = styled.div`
   padding: 7px;

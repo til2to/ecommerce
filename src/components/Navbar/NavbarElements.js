@@ -5,7 +5,45 @@ import { COLORS } from "../../constants";
 export const Container = styled.div`
   height: 60px;
   z-index: 1;
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
 `;
+export const NavBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // @media screen and (max-width : 768px){
+  //   display: none;
+  // } 
+`
+export const LogOutButton = styled.button`
+  background-color: #14213d;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  margin-right: auto;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+`
+export const Welcome = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(316.98deg,#52d67a 16.86%,#5aee87 84.04%);
+  color: #14213d; 
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: lowercase;
+  padding: 8px 16px;
+  margin-left: auto;
+
+`
 export const NavBtnLink = styled(LinkRouter)`
   border-radius: 50px;
   background: ${COLORS.primary};
@@ -25,21 +63,12 @@ export const NavBtnLink = styled(LinkRouter)`
     background: ${COLORS.primaryDark};
   }
 `
-export const NavBtn = styled.nav`
-  display: flex;
-  align-items: center;
-
-  @media screen and (max-width : 768px){
-    display: none;
-  } 
-`
-
 export const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 33.33% 33.33% 33.33%;
   position: fixed;
   z-index: 1;
-  width: 95%;
+  width: 100%;
 `;
 export const NavLeft = styled.div`
   flex: 1;
@@ -89,7 +118,6 @@ export const CurrencyItems = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 30px;
   margin-left: 10px;
 `;
 export const DownArrow = styled.img`

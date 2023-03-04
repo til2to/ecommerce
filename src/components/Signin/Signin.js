@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { auth, provider } from './firebase';
-import { withRouter } from 'react-router-dom';
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signInWithPopup 
-} from 'firebase/auth';
+import { auth, provider } from "./firebase";
+import { withRouter } from "react-router-dom";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 
-import { data } from "../../Data/staticData";
-import google from "./google.png";
+// import { data } from "../../Data/staticData";
+// import google from "./google.png";
 import { showLoginPage } from "../../actions/loginActions";
 import {
   Container,
@@ -22,127 +22,157 @@ import {
   FormWrap,
   Icon,
   Text,
-  GoogleButton,
   GoogleLabel,
   GoogleContainer,
   GoogleButtonA,
-  GoogleIcon,
   Home,
 } from "./SigninElements";
 
 class Signin extends Component {
   static propTypes = {};
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       showLogin: true,
-      password: '',
-      email: '',
+      password: "",
+      email: "",
       loading: false,
-    }
+      signInError: "",
+    };
   }
 
   handleSignInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       console.log(result.user);
-      this.props.history.push('/products/all')
-    } 
-    catch (error) {
-      if (error.code === 'auth/popup-closed-by-user') {
-        console.log('Sign in cancelled by user');
+      this.props.history.push("/products/all");
+    } catch (error) {
+      if (error.code === "auth/popup-closed-by-user") {
+        this.setState({ signInError: "Sign in cancelled by user" });
       }
-      console.error(error);
+    } finally {
+      this.setState({ loading: false });
     }
-    finally {
-      this.setState({ loading: false })
-    }
-  }
+  };
 
   render() {
-    const { email, password, loading } = this.state;
-    const { history } = this.props
-    
-    /* use currentPage variable to navigate back to the exact previous page */
-    let currentPage =
-      JSON.parse(window.localStorage.getItem("categoryIndex")) || 0;
+    const { email, password, loading, signInError } = this.state;
+    const { history } = this.props;
 
-    const handleSignin = () => {
-      this.props.showLoginPage(false);
+    /* use currentPage variable to navigate back to the exact previous page */
+    // let currentPage =
+    //   JSON.parse(window.localStorage.getItem("categoryIndex")) || 0;
+    const changeEmail = (e) => {
+      this.setState({ email: e.target.value });
+    };
+    const changePassword = (e) => {
+      this.setState({ password: e.target.value });
     };
 
-    const changeEmail = (e) => {
-      this.setState({email: e.target.value})
-    }
-    const changePassword = (e) => {
-      this.setState({password: e.target.value})
-    }
-
-    const signIn = (e) =>{
-      e.preventDefault(); 
+    const signIn = (e) => {
+      e.preventDefault();
       //   firebase auth
       signInWithEmailAndPassword(auth, email, password)
-      .then((auth) => {
-        handleSignin()
-        history.push('/products/all')
-      })
-      .catch(error => alert(error.message))
-    }
-    
+      .then((user) => {
+          console.log(user)
+          history.push("/products/all");
+        })
+        .catch((error) => {
+          if (
+            error.code === "auth/wrong-password" ||
+            error.code === "auth/user-not-found" ||
+            error.code === "auth/invalid-email"
+          ) {
+            this.setState({ signInError: "Invalid or incorrect email or password" });
+          } else {
+            this.setState({ signInError: error.message });
+          }
+        });
+    };
+
     const register = (e) => {
       e.preventDefault();
       // firebase authentication
       createUserWithEmailAndPassword(auth, email, password)
-        .then((auth) => { 
+        .then((auth) => {
           // the auth object comes back on success
           console.log(auth);
           // if auth is not empty i.e user created so redirect user
-          if (auth){
-            handleSignin()
-            history.push('/products/all')
+          if (auth) {
+            history.push("/products/all");
           }
         })
-      // else return a message
-      .catch(error => alert(error.message))
+        // else return a message
+        .catch((error) => {
+          if (
+            error.code === "auth/wrong-password" ||
+            error.code === "auth/user-not-found" ||
+            error.code === "auth/invalid-email"
+          ) {
+            this.setState({ signInError: "Enter a valid email and password to sign up" });
+          } else {
+            this.setState({ signInError: error.message });
+          }
+        });
     };
 
     return (
       <>
-        {/* {showLogin === true &&  */}
+        {/* products/${data.categories[currentPage].name} */}
         <Container>
-        <FormWrap>
-          {/* <Icon to={`/products/${data.categories[currentPage].name}`}>
-            <Home onClick={() => handleSignin()}>
-              mariD
-            </Home>
-          </Icon> */}
-          <FormContent>
-            <Form action="">
-              <FormH1>Sign in to your account</FormH1>
-              <FormLabel htmlFor="for">Email</FormLabel>
-              <FormInput type="email" required value={email} onChange={changeEmail}/>
-              <FormLabel htmlFor="for">Password</FormLabel>
-              <FormInput type="password" required value={password} onChange={changePassword}/>
-              <FormButton type="submit" onClick={signIn}>Continue</FormButton>
-              <GoogleContainer>
-                <GoogleButtonA disabled={loading} onClick={this.handleSignInWithGoogle}>
-                  Sign in with Google
-                </GoogleButtonA>
-                <GoogleLabel>Have an account? Sign in</GoogleLabel>
-                <GoogleButtonA onClick={register}>
-                  Don't have an account? Sign up
-                </GoogleButtonA>
-              </GoogleContainer>
-              <Text>Forgot password?</Text>
-            </Form>
-          </FormContent>
-        </FormWrap>
-      </Container>
-      {/* } */}
+          <FormWrap>
+            <Icon to={`/`}>
+              <Home>mariD</Home>
+            </Icon>
+            <FormContent>
+              <Form>
+                <FormH1>Sign in to your account</FormH1>
+                {signInError && (
+                  <p style={{ color: "#fca311", fontSize: "16px", marginBottom:'5px' }}>
+                    {signInError}
+                  </p>
+                )}
+                <FormLabel htmlFor="for">Email</FormLabel>
+                <FormInput
+                  type="email"
+                  required
+                  value={email}
+                  onChange={changeEmail}
+                />
+                <FormLabel htmlFor="for">Password</FormLabel>
+                <FormInput
+                  type="password"
+                  required
+                  value={password}
+                  onChange={changePassword}
+                />
+                <FormButton type="submit" onClick={signIn}>
+                  Continue
+                </FormButton>
+                <GoogleContainer>
+                  <GoogleButtonA
+                    disabled={loading}
+                    onClick={this.handleSignInWithGoogle}
+                  >
+                    Sign in with Google
+                  </GoogleButtonA>
+                  <GoogleLabel>Have an account? Sign in</GoogleLabel>
+                  <GoogleButtonA onClick={register}>
+                    Don't have an account? Sign up
+                  </GoogleButtonA>
+                </GoogleContainer>
+                <Text>Forgot password?</Text>
+              </Form>
+            </FormContent>
+          </FormWrap>
+        </Container>
+        {/* } */}
       </>
     );
   }
 }
 
 // export default connect((state) => ({ login: state.loginPage }), {showLoginPage} )(Signin);
-export default withRouter(connect((state) => ({ login: state.loginPage }), {showLoginPage})(Signin));
+export default withRouter(
+  connect((state) => ({ login: state.loginPage }), { showLoginPage })(Signin)
+);
